@@ -1,0 +1,38 @@
+name: 快手签到
+ 
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 19 * * *'
+  repository_dispatch:
+    types: giftshow
+  # watch:
+  #    types: started
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    env:
+        KS_TOKEN: ${{ secrets.KS_TOKEN }}
+    steps:
+      - name: 'checkout codes'
+        run: |
+          git clone https://github.com/Sunert/Scripts.git ~/Scripts
+      - name: 'setup node.js'
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: 'npm install'
+        run: |
+          cd ~/Scripts
+          npm install
+      - name: 'run script'
+        if: env.KS_TOKEN
+        run: |
+          cd ~/Scripts
+          node Task/kuaishou.js
+        env:
+          PUSH_KEY: ${{ secrets.PUSH_KEY || github.event.client_payload.PUSH_KEY }}
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN || github.event.client_payload.TG_BOT_TOKEN }}
+          TG_USER_ID: ${{ secrets.TG_USER_ID || github.event.client_payload.TG_USER_ID }}

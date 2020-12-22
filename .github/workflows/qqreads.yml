@@ -3,7 +3,7 @@ name: 企鹅读书
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/9 * * * *'
+    - cron: '1,11,21,31,41,51 * * * *'
   repository_dispatch:
     types: qqreads
   # watch:

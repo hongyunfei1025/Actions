@@ -3,9 +3,9 @@ name: 企鹅读书
 on:
   workflow_dispatch:
   schedule:
-    - cron: '1,11,21,31,41,51 * * * *'
+    - cron: '*/20 * * * *'
   repository_dispatch:
-    types: qqreads
+    types: reader
   # watch:
   #    types: started
 
@@ -17,10 +17,11 @@ jobs:
         QQREAD_BODY: ${{ secrets.QQREAD_BODY }}
         QQREAD_TIMEURL: ${{ secrets.QQREAD_TIMEURL }}
         QQREAD_TIMEHD: ${{ secrets.QQREAD_TIMEHD }}
+        QQREAD_CASH: ${{ secrets.QQREAD_CASH }}
     steps:
       - name: 'checkout codes'
         run: |
-          git clone https://github.com/ziye12/JavaScript.git ~/Scripts
+          git clone https://github.com/233Bazinga/Task.git ~/Scripts
       - name: 'setup node.js'
         uses: actions/setup-node@v1
         with:
@@ -34,7 +35,7 @@ jobs:
         if: env.QQREAD_TIMEHD
         run: |
           cd ~/Scripts
-          node Task/qqreads.js
+          node reader.js
         env:          
           PUSH_KEY: ${{ secrets.PUSH_KEY }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}

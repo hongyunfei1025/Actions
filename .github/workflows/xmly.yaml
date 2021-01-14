@@ -16,7 +16,7 @@ jobs:
         steps:
             - name: Checkout
               run: |
-                git clone -b master https://github.com/sazs34/MyActions.git ~/Scripts
+                git clone https://github.com/233Bazinga/Task.git ~/Scripts
 
             - name: 'Set up Python'
               uses: actions/setup-python@v1
